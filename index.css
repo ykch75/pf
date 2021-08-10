@@ -1,0 +1,17 @@
+body {
+    margin-left: 10%;
+}
+
+
+/* 下線 */
+
+.underline {
+    border-bottom: 3px solid #000;
+    padding-bottom: 0.5rem;
+    margin-right: 10%;
+    max-width: auto;
+}
+
+li {
+    margin-right: 10%;
+}
