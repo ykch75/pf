@@ -1,0 +1,11 @@
+user(f): f007 <i class="fas fa-user"></i>
+user(o): f007 <i class="far fa-user"></i>
+gallery(f): f302 <i class="fas fa-images"></i>
+gallery(o): f302 <i class="fas fa-images"></i>
+goods(f): f07a <i class="fas fa-shopping-cart"></i>
+product(f): f49e <i class="fas fa-box-open"></i>
+product(o): f466 <i class="fas fa-box"></i>
+job: f1da <i class="fas fa-history"></i>
+blog(f): f249 <i class="fas fa-sticky-note"></i>
+blog(o): f249 <i class="far fa-sticky-note"></i>
+arrow-left: f060 <i class="fas fa-arrow-left"></i>
