@@ -1,0 +1,92 @@
+body {
+    width: 100%;
+    /*ページ全体の幅は100%と指定する*/
+    text-align: center;
+    /*ページ全体を中央揃えにする*/
+}
+
+#wrap {
+    width: 960px;
+    /*全体の幅を指定する*/
+    margin: 0 auto;
+    /*マージンの指定をする、ブラウザ対策*/
+    text-align: left;
+    /*全体を左揃えにする。*/
+}
+
+nav {
+    text-align: center;
+}
+
+nav ul {
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    list-style: none;
+    display: inline-block;
+    width: 18%;
+    min-width: 90px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #333;
+}
+
+nav ul li.current a {
+    color: #F33135;
+}
+
+nav ul li a:hover {
+    color: #1da1f2;
+}
+
+*,
+*:before,
+*:after {
+    -webkit-box-sizing: inherit;
+    box-sizing: inherit;
+}
+
+html {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    font-size: 62.5%;
+}
+
+.btn,
+a.btn,
+button.btn {
+    font-weight: 700;
+    line-height: 1.5;
+    position: relative;
+    display: inline-block;
+    padding: 1rem 1rem;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    color: #212529;
+    border-radius: 0.5rem;
+}
+
+.btn--blue,
+a.btn--blue {
+    color: #fff;
+    background-color: #1da1f2;
+}
+
+.btn--blue:hover,
+a.btn--blue:hover {
+    color: #fff;
+    background: #1da1f2;
+}
