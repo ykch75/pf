@@ -3,7 +3,7 @@ body {
     /*ページ全体の幅は100%と指定する*/
     text-align: center;
     /*ページ全体を中央揃えにする*/
-    font-size: 2rem;
+    font-size: 1.5rem;
 }
 
 #wrap {
