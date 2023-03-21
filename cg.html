@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Three.js チュートリアル１</title>
+    <script src="three.min.js"></script>
+    <style type="text/css">
+        div#canvas-frame {
+            border: none;
+            cursor: pointer;
+            width: 1000px;
+            height: 1000px;
+            background-color: #00afcc;
+        }
+    </style>
+    <script>
+        var renderer;
+
+        function initThree() {
+            width = document.getElementById('canvas-frame').clientWidth;
+            height = document.getElementById('canvas-frame').clientHeight;
+            renderer = new THREE.WebGLRenderer({
+                antialias: true,
+                alpha: true
+            });
+            renderer.setSize(width, height);
+            document.getElementById('canvas-frame').appendChild(renderer.domElement);
+            renderer.setClearColorHex(0x00afcc, 1.0);
+            renderer.shadowMapEnabled = true;
+        }
+
+        var camera;
+
+        function initCamera() {
+            camera = new THREE.PerspectiveCamera(45, width / height, 1, 10000);
+            camera.position.x = 700;
+            camera.position.y = 0;
+            camera.position.z = 50;
+            camera.up.x = 0;
+            camera.up.y = 0;
+            camera.up.z = 1;
+            camera.lookAt({
+                x: 0,
+                y: 0,
+                z: 0
+            });
+        }
+
+        var scene;
+
+        function initScene() {
+            scene = new THREE.Scene();
+        }
+        var light, light2;
+
+        function initLight() {
+            light = new THREE.DirectionalLight(0xffffff, 1.0, 0);
+            light.position.set(100, 100, 200);
+            light.castShadow = true;
+            scene.add(light);
+        }
+        var plane1, plane2;
+        var body, head;
+        var hand1, hand2;
+        var leg1, leg2, ear1, ear2, hand1, hand2, plane;
+        var tail1, tail2;
+        var eye1, eye2, eye3, eye4;
+        var mouth;
+        var fin1, fin2;
+        var frameU, frameR, frameD, frameL;
+        var heart1, heart2, heart3;
+        var start, goal;
+
+        var flag1, flag2, pole1, pole2;
+
+        var kusa = Array();
+        var kusaa = Array();
+        var kusaaa = Array();
+        var ki = Array();
+        var ha = Array();
+        var kii = Array();
+        var haa = Array();
+        var haaa = Array();
+        var haaaa = Array();
+        var flo1 = Array();
+        var flo2 = Array();
+
+        var min = 10;
+        var max = 50;
+        var minz = 1;
+        var maxz = 2;
+        var minx = -550;
+        var maxx = 550;
+        var x, y, kx, ky;
+        var xx = Array();
+        var yx = Array();
+        var z = Array();
+        var kz = Array();
+        var kxx = Array();
+        var kyx = Array();
+        var fmin = 3;
+        var fmax = 5;
+
+
+        function initObject() {
+            plane1 = new THREE.Mesh(
+                new THREE.PlaneGeometry(1200, 1400),
+                new THREE.MeshLambertMaterial({
+                    color: "green"
+                })
+            );
+            scene.add(plane1);
+            plane1.position.set(0, 0, 0);
+            plane1.receiveShadow = true;
+
+            plane2 = new THREE.Mesh(
+                new THREE.PlaneGeometry(1200, 40),
+                new THREE.MeshLambertMaterial({
+                    color: 0x7D8361
+                })
+            );
+            scene.add(plane2);
+            plane2.position.set(0, 0, 0.1);
+            plane2.receiveShadow = true;
+
+
+            start = new THREE.Mesh(
+                new THREE.PlaneGeometry(40, 40),
+                new THREE.MeshLambertMaterial({
+                    color: "red"
+                })
+            );
+            scene.add(start);
+            start.position.set(-500, 0, 0.2);
+            start.receiveShadow = true;
+
+            goal = new THREE.Mesh(
+                new THREE.PlaneGeometry(40, 40),
+                new THREE.MeshLambertMaterial({
+                    color: "yellow"
+                })
+            );
+            scene.add(goal);
+            goal.position.set(500, 0, 0.2);
+            goal.receiveShadow = true;
+
+            //フレーム
+            frameU = new THREE.Mesh(
+                new THREE.PlaneGeometry(100, 100),
+                new THREE.MeshLambertMaterial({
+                    color: "white"
+                })
+            );
+            frameR = new THREE.Mesh(
+                new THREE.PlaneGeometry(100, 100),
+                new THREE.MeshLambertMaterial({
+                    color: "white"
+                })
+            );
+            frameD = new THREE.Mesh(
+                new THREE.PlaneGeometry(100, 100),
+                new THREE.MeshLambertMaterial({
+                    color: "white"
+                })
+            );
+            frameL = new THREE.Mesh(
+                new THREE.PlaneGeometry(100, 100),
+                new THREE.MeshLambertMaterial({
+                    color: "white"
+                })
+            );
+            //草
+            for (var i = 0; i < 1000; i++) {
+                x = Math.floor(Math.random() * (max + 1 - min)) + min;
+                y = Math.floor(Math.random() * (max + 1 - min)) + min;
+                z[i] = Math.floor(Math.random() * (maxz + 1 - minz)) + minz;
+                xx[i] = Math.floor(Math.random() * (maxx + 1 - minx)) + minx;
+                yx[i] = Math.floor(Math.random() * (maxx + 1 - minx)) + minx;
+                while (Math.abs(yx[i]) < 20) {
+                    yx[i] = Math.floor(Math.random() * (maxx + 1 - minx));
+                }
+                kusa[i] = new THREE.Mesh(
+                    new THREE.CubeGeometry(x, y, z[i]),
+                    new THREE.MeshLambertMaterial({
+                        color: "green"
+                    })
+                );
+                scene.add(kusa[i]);
+                kusa[i].position.set(xx[i], yx[i], z[i] / 4);
+                kusa[i].receiveShadow = true;
+                kusa[i].castShadow = true;
+
+            }
+            for (var i = 0; i < 800; i++) {
+                x = Math.floor(Math.random() * (max + 1 - min)) + min;
+                y = Math.floor(Math.random() * (max + 1 - min)) + min;
+                z[i] = Math.floor(Math.random() * (maxz + 1 - minz)) + minz;
+                xx[i] = Math.floor(Math.random() * (maxx + 1 - minx)) + minx;
+                yx[i] = Math.floor(Math.random() * (maxx + 1 - minx)) + minx;
+                while (Math.abs(yx[i]) < 20) {
+                    yx[i] = Math.floor(Math.random() * (maxx + 1 - minx));
+                }
+                kusaa[i] = new THREE.Mesh(
+                    new THREE.CubeGeometry(x, y, z[i]),
+                    new THREE.MeshLambertMaterial({
+                        color: 0x00633A
+                    })
+                );
+                scene.add(kusaa[i]);
+                kusaa[i].position.set(xx[i], yx[i], z[i] / 4);
+                kusaa[i].receiveShadow = true;
+                kusaa[i].castShadow = true;
+
+            }
+            for (var i = 0; i < 100; i++) {
+                x = Math.floor(Math.random() * (max + 1 - min)) + min;
+                y = Math.floor(Math.random() * (max + 1 - min)) + min;
+                z[i] = Math.floor(Math.random() * (maxz + 1 - minz)) + minz;
+                xx[i] = Math.floor(Math.random() * (maxx + 1 - minx)) + minx;
+                yx[i] = Math.floor(Math.random() * (maxx + 1 - minx)) + minx;
+                while (Math.abs(yx[i]) < 20) {
+                    yx[i] = Math.floor(Math.random() * (maxx + 1 - minx));
+                }
+                kusaaa[i] = new THREE.Mesh(
+                    new THREE.CubeGeometry(x, y, z[i]),
+                    new THREE.MeshLambertMaterial({
+                        color: 0x7D8361
+                    })
+                );
+                scene.add(kusaaa[i]);
+                kusaaa[i].position.set(xx[i], yx[i], z[i] / 3.5);
+                kusaaa[i].receiveShadow = true;
+                kusaaa[i].castShadow = true;
+
+            }
+            //木1
+            for (var i = 0; i < 100; i++) {
+                x = Math.floor(Math.random() * (max + 1 - min)) + min;
+                y = Math.floor(Math.random() * (max + 1 - min)) + min;
+                z[i] = Math.floor(Math.random() * (maxz + 1 - minz)) + minz;
+                xx[i] = Math.floor(Math.random() * (maxx + 1 - minx)) + minx;
+                yx[i] = Math.floor(Math.random() * (maxx + 1 - minx)) + minx;
+                if (Math.abs(yx[i]) < 40) {
+                    yx[i] = Math.floor(Math.random() * (maxx + 1 - minx));
+                }
+                ki[i] = new THREE.Mesh(
+                    new THREE.CylinderGeometry(5, 5, 40, 50),
+                    new THREE.MeshPhongMaterial({
+                        color: "brown"
+                    })
+                );
+                scene.add(ki[i]);
+                ki[i].position.set(xx[i], yx[i], 20);
+                ki[i].rotation.set(Math.PI / 2, 0, 0);
+                ki[i].castShadow = true;
+                ha[i] = new THREE.Mesh(
+                    new THREE.CylinderGeometry(0, 20, 60, 50),
+                    new THREE.MeshPhongMaterial({
+                        color: 0x005731
+                    })
+                );
+                scene.add(ha[i]);
+                ha[i].position.set(xx[i], yx[i], 60);
+                ha[i].rotation.set(Math.PI / 2, 0, 0);
+                ha[i].castShadow = true;
+            }
+            //木2
+            for (var i = 0; i < 100; i++) {
+                x = Math.floor(Math.random() * (max + 1 - min)) + min;
+                y = Math.floor(Math.random() * (max + 1 - min)) + min;
+                z[i] = Math.floor(Math.random() * (maxz + 1 - minz)) + minz;
+                xx[i] = Math.floor(Math.random() * (maxx + 1 - minx)) + minx;
+                yx[i] = Math.floor(Math.random() * (maxx + 1 - minx)) + minx;
+                if (Math.abs(yx[i]) < 40) {
+                    yx[i] = Math.floor(Math.random() * (maxx + 1 - minx));
+                }
+                kii[i] = new THREE.Mesh(
+                    new THREE.CylinderGeometry(5, 5, 40, 8),
+                    new THREE.MeshPhongMaterial({
+                        color: 0x602D1D
+                    })
+                );
+                scene.add(kii[i]);
+                kii[i].position.set(xx[i], yx[i], 20);
+                kii[i].rotation.set(Math.PI / 2, 0, 0);
+                kii[i].castShadow = true;
+                haa[i] = new THREE.Mesh(
+                    new THREE.SphereGeometry(20, 5, 5),
+                    new THREE.MeshPhongMaterial({
+                        color: 0x005344
+                    })
+                );
+                haaa[i] = new THREE.Mesh(
+                    new THREE.SphereGeometry(17, 5, 5),
+                    new THREE.MeshPhongMaterial({
+                        color: 0x006C4F
+                    })
+                );
+                haaaa[i] = new THREE.Mesh(
+                    new THREE.SphereGeometry(13, 5, 5),
+                    new THREE.MeshPhongMaterial({
+                        color: 0x006C4F
+                    })
+                );
+                scene.add(haa[i]);
+                scene.add(haaa[i]);
+                scene.add(haaaa[i]);
+                haa[i].position.set(xx[i], yx[i], 50);
+                haaa[i].position.set(xx[i], yx[i], 65);
+                haaaa[i].position.set(xx[i], yx[i], 80);
+                haa[i].castShadow = true;
+                haaa[i].castShadow = true;
+                haaaa[i].castShadow = true;
+            }
+            //花
+            for (var i = 0; i < 500; i++) {
+                x = Math.floor(Math.random() * (fmax + 1 - fmin)) + fmin;
+                y = Math.floor(Math.random() * (fmax + 1 - fmin)) + fmin;
+                z[i] = Math.floor(Math.random() * (fmax + 1 - fmin)) + fmin;
+                xx[i] = Math.floor(Math.random() * (maxx + 1 - minx)) + minx;
+                yx[i] = Math.floor(Math.random() * (maxx + 1 - minx)) + minx;
+                while (Math.abs(yx[i]) < 20) {
+                    yx[i] = Math.floor(Math.random() * (maxx + 1 - minx));
+                }
+                flo1[i] = new THREE.Mesh(
+                    new THREE.CubeGeometry(x, y, z[i]),
+                    new THREE.MeshLambertMaterial({
+                        color: "red"
+                    })
+                );
+                scene.add(flo1[i]);
+                flo1[i].position.set(xx[i], yx[i], z[i] / 2);
+                flo1[i].receiveShadow = true;
+                flo1[i].castShadow = true;
+
+            }
+            for (var i = 0; i < 500; i++) {
+                x = Math.floor(Math.random() * (fmax + 1 - fmin)) + fmin;
+                y = Math.floor(Math.random() * (fmax + 1 - fmin)) + fmin;
+                z[i] = Math.floor(Math.random() * (fmax + 1 - fmin)) + fmin;
+                xx[i] = Math.floor(Math.random() * (maxx + 1 - minx)) + minx;
+                yx[i] = Math.floor(Math.random() * (maxx + 1 - minx)) + minx;
+                while (Math.abs(yx[i]) < 20) {
+                    yx[i] = Math.floor(Math.random() * (maxx + 1 - minx));
+                }
+                flo2[i] = new THREE.Mesh(
+                    new THREE.CubeGeometry(x, y, z[i]),
+                    new THREE.MeshLambertMaterial({
+                        color: "yellow"
+                    })
+                );
+                scene.add(flo2[i]);
+                flo2[i].position.set(xx[i], yx[i], z[i] / 2);
+                flo2[i].receiveShadow = true;
+                flo2[i].castShadow = true;
+
+            }
+
+            pole1 = new THREE.Mesh(
+                new THREE.CylinderGeometry(1, 1, 50, 8),
+                new THREE.MeshPhongMaterial({
+                    color: 0xffffff
+                })
+            );
+            scene.add(pole1);
+            pole1.position.set(-500, -25, 25);
+            pole1.rotation.set(Math.PI / 2, 0, 0);
+
+            flag1 = new THREE.Mesh(
+                new THREE.CircleGeometry(10, 3),
+                new THREE.MeshPhongMaterial({
+                    color: "red"
+                })
+            );
+            scene.add(flag1);
+            flag1.position.set(-500, -30, 42);
+            flag1.rotation.set(0, Math.PI / 2, -Math.PI / 2);
+
+            pole2 = new THREE.Mesh(
+                new THREE.CylinderGeometry(1, 1, 50, 8),
+                new THREE.MeshPhongMaterial({
+                    color: 0xffffff
+                })
+            );
+            scene.add(pole2);
+            pole2.position.set(500, 25, 25);
+            pole2.rotation.set(Math.PI / 2, 0, 0);
+
+            flag2 = new THREE.Mesh(
+                new THREE.CircleGeometry(10, 3),
+                new THREE.MeshPhongMaterial({
+                    color: "yellow"
+                })
+            );
+            scene.add(flag2);
+            flag2.position.set(500, 30, 42);
+            flag2.rotation.set(0, Math.PI / 2, Math.PI / 2);
+
+            body = new THREE.Mesh(
+                new THREE.CubeGeometry(15, 20, 13),
+                new THREE.MeshLambertMaterial({
+                    color: 0xc5956b
+                })
+            );
+            scene.add(body);
+            body.position.set(0, 0, 13);
+
+            body.castShadow = true;
+
+            head = new THREE.Mesh(
+                new THREE.CubeGeometry(18, 23, 15),
+                new THREE.MeshLambertMaterial({
+                    color: 0xc5956b
+                })
+            );
+            scene.add(head);
+            head.position.set(0, 0, 25);
+            head.castShadow = true;
+
+            hand1 = new THREE.Mesh(
+                new THREE.CubeGeometry(5, 5, 6),
+                new THREE.MeshLambertMaterial({
+                    color: 0xc5956b
+                })
+            );
+            scene.add(hand1);
+            hand1.position.set(0, -13, 12);
+            hand1.castShadow = true;
+
+            hand2 = new THREE.Mesh(
+                new THREE.CubeGeometry(5, 5, 6),
+                new THREE.MeshLambertMaterial({
+                    color: 0xc5956b
+                })
+            );
+            scene.add(hand2);
+            hand2.position.set(0, 13, 12);
+            hand2.castShadow = true;
+
+            leg1 = new THREE.Mesh(
+                new THREE.CubeGeometry(5, 5, 6),
+                new THREE.MeshLambertMaterial({
+                    color: 0xc5956b
+                })
+            );
+            scene.add(leg1);
+            leg1.position.set(0, -5, 3);
+            leg1.castShadow = true;
+
+            leg2 = new THREE.Mesh(
+                new THREE.CubeGeometry(5, 5, 6),
+                new THREE.MeshLambertMaterial({
+                    color: 0xc5956b
+                })
+            );
+            scene.add(leg2);
+            leg2.position.set(0, 5, 3);
+            leg2.castShadow = true;
+
+            ear1 = new THREE.Mesh(
+                new THREE.CubeGeometry(5, 5, 5),
+                new THREE.MeshLambertMaterial({
+                    color: 0xc5956b
+                })
+            );
+            scene.add(ear1);
+            ear1.position.set(0, -5, 35);
+            ear1.castShadow = true;
+
+            ear2 = new THREE.Mesh(
+                new THREE.CubeGeometry(5, 5, 5),
+                new THREE.MeshLambertMaterial({
+                    color: 0xc5956b
+                })
+            );
+            scene.add(ear2);
+            ear2.position.set(0, 5, 35);
+            ear2.castShadow = true;
+
+            tail1 = new THREE.Mesh(
+                new THREE.CubeGeometry(10, 15, 15),
+                new THREE.MeshLambertMaterial({
+                    color: 0xc5956b
+                })
+            );
+            scene.add(tail1);
+            tail1.position.set(-10, 0, 12);
+            tail1.castShadow = true;
+
+            tail2 = new THREE.Mesh(
+                new THREE.CubeGeometry(5, 10, 10),
+                new THREE.MeshLambertMaterial({
+                    color: 0xc5956b
+                })
+            );
+            scene.add(tail2);
+            tail2.position.set(-15, 0, 12);
+            tail2.castShadow = true;
+
+            eye1 = new THREE.Mesh(
+                new THREE.CircleGeometry(3, 30, 0, Math.PI),
+                new THREE.MeshLambertMaterial({
+                    color: "black"
+                })
+            );
+            eye2 = new THREE.Mesh(
+                new THREE.CircleGeometry(2.5, 30, 0, Math.PI),
+                new THREE.MeshLambertMaterial({
+                    color: 0xc5956b
+                })
+            );
+            scene.add(eye1);
+            scene.add(eye2);
+            eye1.position.set(9.01, 5, 23);
+            eye2.position.set(9.02, 5, 23);
+            eye1.rotation.set(0, Math.PI / 2, Math.PI / 2);
+            eye2.rotation.set(0, Math.PI / 2, Math.PI / 2);
+
+            eye3 = new THREE.Mesh(
+                new THREE.CircleGeometry(3, 30, 0, Math.PI),
+                new THREE.MeshLambertMaterial({
+                    color: "black"
+                })
+            );
+            eye4 = new THREE.Mesh(
+                new THREE.CircleGeometry(2.5, 30, 0, Math.PI),
+                new THREE.MeshLambertMaterial({
+                    color: 0xc5956b
+                })
+            );
+            scene.add(eye3);
+            scene.add(eye4);
+            eye3.position.set(9.01, -5, 23);
+            eye4.position.set(9.02, -5, 23);
+            eye3.rotation.set(0, Math.PI / 2, Math.PI / 2);
+            eye4.rotation.set(0, Math.PI / 2, Math.PI / 2);
+
+            mouth = new THREE.Mesh(
+                new THREE.CircleGeometry(3, 30, 0, Math.PI),
+                new THREE.MeshLambertMaterial({
+                    color: "red"
+                })
+            );
+            scene.add(mouth);
+            mouth.position.set(9.01, 0, 22);
+            mouth.rotation.set(0, Math.PI / 2, Math.PI * 3 / 2);
+
+            fin1 = new THREE.Mesh(
+                new THREE.CubeGeometry(2, 2, 2),
+                new THREE.MeshLambertMaterial({
+                    color: 0xc5956b
+                })
+            );
+            fin1.castShadow = true;
+
+            fin2 = new THREE.Mesh(
+                new THREE.CubeGeometry(2, 2, 2),
+                new THREE.MeshLambertMaterial({
+                    color: 0xc5956b
+                })
+            );
+            fin2.castShadow = true;
+
+            //ハート
+            heart1 = new THREE.Mesh(
+                new THREE.CylinderGeometry(3, 3, 1, 50),
+                new THREE.MeshPhongMaterial({
+                    color: "red"
+                })
+            );
+            heart2 = new THREE.Mesh(
+                new THREE.CylinderGeometry(3, 3, 1, 50),
+                new THREE.MeshPhongMaterial({
+                    color: "red"
+                })
+            );
+            heart3 = new THREE.Mesh(
+                new THREE.CubeGeometry(6, 1, 6),
+                new THREE.MeshPhongMaterial({
+                    color: "red"
+                })
+            );
+            heart1.castShadow = true;
+            heart2.castShadow = true;
+            heart3.castShadow = true;
+
+        }
+        var t = 0;
+
+        function loop() {
+            t++;
+            t++;
+            t++;
+            t++;
+            if (t < 850) {
+                tail1.rotation.set(0, Math.cos(t / 10) / 3, 0);
+                tail2.rotation.set(0, Math.cos(t / 10) / 3, 0);
+                hand1.rotation.set(0, Math.cos(t / 10) / 3, 0);
+                hand2.rotation.set(0, -Math.cos(t / 10) / 3, 0);
+                body.position.set(-500 + t, 0, 13);
+                head.position.set(-500 + t, 0, 25);
+                hand1.position.set(-500 + t, -13, 12);
+                hand2.position.set(-500 + t, 13, 12);
+                ear1.position.set(-500 + t, -5, 35);
+                ear2.position.set(-500 + t, 5, 35);
+                tail1.position.set(-10 - 500 + t, 0, 12);
+                tail2.position.set(-15 - 500 + t, 0, 12);
+                eye1.position.set(9.01 - 500 + t, 5, 23);
+                eye2.position.set(9.02 - 500 + t, 5, 23);
+                eye3.position.set(9.01 - 500 + t, -5, 23);
+                eye4.position.set(9.02 - 500 + t, -5, 23);
+                mouth.position.set(9.01 - 500 + t, 0, 22);
+                leg1.position.set(2 * Math.cos(t / 10) - 500 + t, -5, 3);
+                leg2.position.set(-2 * Math.cos(t / 10) - 500 + t, 5, 3);
+                camera.position.set(500 * Math.cos(t / 200), 500 * Math.cos(t / 300), 500 * Math.abs(Math.cos(t / 500)));
+                camera.lookAt({
+                    x: t - 500,
+                    y: 0,
+                    z: 0
+                });
+            } else if (t <= 1000) {
+                tail1.rotation.set(0, Math.cos(t / 10) / 3, 0);
+                tail2.rotation.set(0, Math.cos(t / 10) / 3, 0);
+                hand1.rotation.set(0, Math.cos(t / 10) / 3, 0);
+                hand2.rotation.set(0, -Math.cos(t / 10) / 3, 0);
+                body.position.set(-500 + t, 0, 13);
+                head.position.set(-500 + t, 0, 25);
+                hand1.position.set(-500 + t, -13, 12);
+                hand2.position.set(-500 + t, 13, 12);
+                ear1.position.set(-500 + t, -5, 35);
+                ear2.position.set(-500 + t, 5, 35);
+                tail1.position.set(-10 - 500 + t, 0, 12);
+                tail2.position.set(-15 - 500 + t, 0, 12);
+                eye1.position.set(9.01 - 500 + t, 5, 23);
+                eye2.position.set(9.02 - 500 + t, 5, 23);
+                eye3.position.set(9.01 - 500 + t, -5, 23);
+                eye4.position.set(9.02 - 500 + t, -5, 23);
+                mouth.position.set(9.01 - 500 + t, 0, 22);
+                leg1.position.set(2 * Math.cos(t / 10) - 500 + t, -5, 3);
+                leg2.position.set(-2 * Math.cos(t / 10) - 500 + t, 5, 3);
+                camera.position.set(t, 0, 50);
+                camera.lookAt({
+                    x: t - 500,
+                    y: 0,
+                    z: 0
+                });
+            } else if (t <= 1010) {
+                tail1.rotation.set(0, Math.cos(t / 10) / 3, 0);
+                tail2.rotation.set(0, Math.cos(t / 10) / 3, 0);
+                hand1.rotation.set(0, Math.cos(t / 50) / 3, 0);
+                hand2.rotation.set(0, -Math.cos(t / 50) / 3, 0);
+                body.position.set(500, 0, 13);
+                head.position.set(500, 0, 25);
+                hand1.position.set(500, -13, 12);
+                hand2.position.set(500, 13, 12);
+                ear1.position.set(500, -5, 35);
+                ear2.position.set(500, 5, 35);
+                tail1.position.set(-10 + 500, 0, 12);
+                tail2.position.set(-15 + 500, 0, 12);
+                eye1.position.set(9.01 + 500, 5, 23);
+                eye2.position.set(9.02 + 500, 5, 23);
+                eye3.position.set(9.01 + 500, -5, 23);
+                eye4.position.set(9.02 + 500, -5, 23);
+                mouth.position.set(9.01 + 500, 0, 22);
+                leg1.position.set(500, -5, 3);
+                leg2.position.set(500, 5, 3);
+                camera.position.set(700, 0, 50);
+                camera.lookAt({
+                    x: 500,
+                    y: 0,
+                    z: 0
+                });
+            } else {
+                camera.position.set(700, 0, 50);
+                camera.lookAt({
+                    x: 500,
+                    y: 0,
+                    z: 0
+                });
+
+                scene.add(fin1);
+
+                scene.add(fin2);
+                fin1.position.set(500, 15.8, 15.5);
+                fin2.position.set(500, 14, 17.5);
+                fin1.rotation.set(Math.PI * 3 / 4, 0, 0);
+                fin2.rotation.set(Math.PI * 3 / 4, 0, 0);
+                head.rotation.set(Math.PI / 12, 0, 0);
+                head.position.set(500, -1, 24);
+                ear1.position.set(500, -7, 33);
+                ear2.position.set(500, 1, 35);
+                ear1.rotation.set(Math.PI / 12, 0, 0);
+                ear2.rotation.set(Math.PI / 12, 0, 0);
+                leg1.position.set(500, -5, 3);
+                leg2.position.set(500, 5, 3);
+                eye1.position.set(500 + 9.01, 3, 25);
+                eye2.position.set(500 + 9.02, 3, 25);
+                eye3.position.set(500 + 9.01, -5, 23);
+                eye4.position.set(500 + 9.02, -5, 23);
+                mouth.position.set(500 + 9.01, 0, 22);
+                body.position.set(500, 0, 13);
+                eye1.rotation.set(Math.PI / 12, Math.PI / 2, Math.PI / 2);
+                eye2.rotation.set(Math.PI / 12, Math.PI / 2, Math.PI / 2);
+                eye3.rotation.set(Math.PI / 12, Math.PI / 2, Math.PI / 2);
+                eye4.rotation.set(Math.PI / 12, Math.PI / 2, Math.PI / 2);
+                mouth.rotation.set(Math.PI / 12, Math.PI / 2, Math.PI * 3 / 2);
+                hand1.position.set(500, -13, 12);
+                hand2.position.set(500, 12, 14);
+                hand2.rotation.set(Math.PI * 3 / 4, 0, 0);
+                scene.add(frameU);
+                scene.add(frameR);
+                scene.add(frameD);
+                scene.add(frameL);
+                frameU.position.set(600, 0, 110);
+                frameR.position.set(600, 80, 30);
+                frameD.position.set(600, 0, -30);
+                frameL.position.set(600, -80, 30);
+                frameU.rotation.set(0, Math.PI / 2, 0);
+                frameR.rotation.set(0, Math.PI / 2, 0);
+                frameD.rotation.set(0, Math.PI / 2, 0);
+                frameL.rotation.set(0, Math.PI / 2, 0);
+                scene.add(heart1);
+                scene.add(heart2);
+                scene.add(heart3);
+                heart1.position.set(500, -25, 20);
+                heart2.position.set(500, -20, 20);
+                heart3.position.set(500, -22.5, 17.5);
+                heart1.rotation.set(0, 0, Math.PI / 2);
+                heart2.rotation.set(0, 0, Math.PI / 2);
+                heart3.rotation.set(Math.PI / 4, 0, Math.PI / 2);
+            }
+
+
+            renderer.clear();
+            renderer.render(scene, camera);
+            window.requestAnimationFrame(loop);
+        }
+
+        function threeStart() {
+            initThree();
+            initCamera();
+            initScene();
+            initLight();
+            initObject();
+            loop();
+            renderer.clear();
+            renderer.render(scene, camera);
+        }
+    </script>
+</head>
+
+<body onload="threeStart();">
+    <div id="canvas-frame"></div>
+</body>
+
+</html>
